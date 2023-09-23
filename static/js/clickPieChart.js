@@ -38,11 +38,32 @@ document.addEventListener('DOMContentLoaded', function () {
             // set popup attribute to be used later
             var popup = document.getElementById('popup');
             popup.setAttribute("clickedIndex", clickedIndex);
-            
+
+            // sets the background color but it looks terrible, could maybe be used to modify color
+            // popup.style.backgroundColor = myPieChart.data.datasets[0].backgroundColor[clickedIndex];
+
+            var newValueInput = popup.querySelector('input');
+            newValueInput.value = myPieChart.data.datasets[0].data[clickedIndex];
+
+            var label = popup.querySelector('label');
+            label.textContent = "New value for " + myPieChart.data.labels[clickedIndex] + ":";
+
             // Position the popup next to the clicked segment
-            popup.style.left = event.clientX / 2 + 'px';
-            popup.style.top = event.clientY / 2 + 'px';
+            // popup.style.left = event.clientX + 'px';
+            // popup.style.top = event.clientY + 'px';
             popup.style.display = 'block';
+
+            // Focus on the "Update Value" input field
+            var inputField = document.getElementById('newValue');
+            inputField.focus();
+
+            // Add a keydown event listener to the input field
+            inputField.addEventListener('keydown', function (event) {
+                if (event.key === 'Enter') {
+                    // Simulate a click event on the "Update" button
+                    document.getElementById('updateValue').click();
+                }
+            });
         }
     });
 
@@ -63,4 +84,20 @@ document.addEventListener('DOMContentLoaded', function () {
         myPieChart.data.datasets[0].data[index] = newValue;
         myPieChart.update();
     }
+
+    // Function to close the popup
+    function closePopup() {
+        var popup = document.getElementById('popup');
+        popup.style.display = 'none';
+    }
+
+    // Function to handle the 'Esc' key press
+    function handleEscKey(event) {
+        if (event.key === 'Escape' || event.keyCode === 27) {
+            closePopup();
+        }
+    }
+
+    // Add a 'keydown' event listener to the document to handle 'Esc' key press
+    document.addEventListener('keydown', handleEscKey);
 });
