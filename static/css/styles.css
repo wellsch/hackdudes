@@ -1,0 +1,9 @@
+/* Styling for the custom popup */
+.popup {
+    position: absolute;
+    background-color: white;
+    border: 1px solid #ccc;
+    padding: 10px;
+    display: none;
+    z-index: 10;    /* make it appear in front of other cards */
+}

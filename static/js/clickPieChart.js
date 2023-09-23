@@ -33,13 +33,32 @@ document.addEventListener('DOMContentLoaded', function () {
             // Get the index of the clicked segment
             var clickedIndex = activeElements[0].index;
 
-            myPieChart.data.datasets[0].data[clickedIndex]++
+            // myPieChart.data.datasets[0].data[clickedIndex] += 10
+
+            var popup = document.getElementById('popup');
+            
+            // Position the popup next to the clicked segment
+            popup.style.left = event.clientX / 2 + 'px';
+            popup.style.top = event.clientY / 2 + 'px';
+            popup.style.display = 'block';
+
+            // Handle the "Update" button click
+            document.getElementById('updateValue').addEventListener('click', function () {
+                var newValue = parseFloat(document.getElementById('newValue').value);
+                if (!isNaN(newValue)) {
+                    console.log(myPieChart.data.datasets[0]);
+                    // Update the chart data with the new value
+                    myPieChart.data.datasets[0].data[clickedIndex] = newValue;
+                    myPieChart.update();
+                }
+                popup.style.display = 'none'; // Hide the popup
+            });
 
             // Perform an action based on the clicked segment
             // alert('You clicked on segment ' + clickedIndex);
 
             // update the chart
-            myPieChart.update();
+            // myPieChart.update();
         }
     });
 });
