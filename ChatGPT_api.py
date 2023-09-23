@@ -19,23 +19,51 @@ def process_request(chat_history):
     Returns:
         - A user object as defined in user.py representing the user's info gleaned from the chat messages.
     """
+    # Load your API key from an environment variable or secret management service
+    openai.api_key = config.ChatGPT_API_KEY
     # Extracting the last request, type is a dictionary
-    latest_request = chat_history[len(chat_history) - 1]
-    
-    if (latest_request['role'] != 'user'):
-        raise Exception("Last chat log must be from the user")
 
-    latest_request['content'] = latest_request['content'] + "Give me ONLY a JSON object of my zip code, monthly income, age, monthly savings, and rent."
+    string = """
+    You are a JSON generator for a financial app which creates JSONs of the format below in response to the users request:
+    {
+        "discretionary": {
+            "misc": 8649.0
+        }, "necessities": {
+            "food": 250,
+            "misc": 0,
+            "transportation": 250
+        }, "overall": {
+            "discretionary": 8649.0,
+            "necessities": 500,
+            "rent": 820.0,
+            "savings": 0,
+            "utilities": 31.0
+        },"utilities": {
+            "electricity": 10.333333333333334,
+            "gas": 10.333333333333334,
+            "water": 10.333333333333334
+        }
+    }
+
+    You are allowed to add number fields to the existing JSON objects, but you are not allowed to add additional JSON objects to the overall
+    object. In addition, since you are a financial assistant, any changes you make should accurately change all applicable numbers, such as 
+    if a user said their income was $10,000 per month, you would make sure that the values in overall summed to that amount. The discrectionary
+    entry should always reflect the difference between the users total income and all their expenses. 
+    """
+
+    header = {"role": "system",
+              "content": string}
+
+    chat_history.insert(0, header)
 
     chat_completion = openai.ChatCompletion.create(model="gpt-3.5-turbo", messages=chat_history)
-    return chat_completion
+    return chat_completion["choices"][0]["message"]["content"]
 
-# Load your API key from an environment variable or secret management service
-openai.api_key = config.ChatGPT_API_KEY
 
-sample_chat_history = [{"role": "user", "content": "I am a 20 year old male living in Brookline MA."},
-                        {"role": "user", "content": "I pay 1000$ a month in rent."}, 
-                        {"role": "user", "content": "I make 20$ a hour at McDonalds and work 40 hours a week"}, 
-                        {"role": "user", "content": "I am planning on having a kid in the next 2 years."} ]
 
-print(process_request(sample_chat_history))
+# sample_chat_history = [{"role": "user", "content": "I am a 20 year old male living in Brookline MA."},
+#                         {"role": "user", "content": "I pay 1000$ a month in rent."}, 
+#                         {"role": "user", "content": "I make 20$ a hour at McDonalds and work 40 hours a week"}, 
+#                         {"role": "user", "content": "I am planning on having a kid in the next 2 years."} ]
+
+# print(process_request(sample_chat_history))

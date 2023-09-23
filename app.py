@@ -2,10 +2,13 @@ from flask import Flask, request, render_template, jsonify
 from flask_socketio import SocketIO
 from flask_cors import CORS
 import user
+import ChatGPT_api
+import json
 
 # Create a Flask app
 app = Flask(__name__)
 socketio = SocketIO(app)
+
 # Enables all origins, which basically disallows CORS
 CORS(app, resources={r"/socket.io/*": {"origins": "http://127.0.0.1:5000"}})
 
@@ -16,14 +19,17 @@ def show_base():
     return render_template('base.html')
 
 
-# Sending push data notifications to front end indicating that server data has changed
-# and the front-end displays need to be updated with this new information.
+# Sending push data notifications to front 
+# end indicating that server data has changed
+# and the front-end displays need to be 
+# updated with this new information.
 @socketio.on('connect')
 def handle_connect():
     print("fe connected")
     socketio.emit('response', {'data': 'connected'})
 
-# If for some reason the front end is trying to send us a message through socket instead of 
+# If for some reason the front end is trying 
+# to send us a message through socket instead of 
 # through the flask app, we can receive it here.
 @socketio.on('message')
 def handle_message(data):
@@ -35,7 +41,7 @@ def handle_message(data):
 def init_user():
     """
     Creates a User object to store requisite fields and data.
-    So far, only requires monthly income and something else.
+    So far, only requires monthly income and zipcode.
     """
     userzip = request.get_json()["zip"]
     userinc = request.get_json()["income"]
@@ -67,15 +73,17 @@ def init_user():
 
 @app.route('/api/userrequest', methods=['POST'])
 def fwd_req():
-    # TODO
-    # We recieve the request as a JSON dictionary.
-    # It maps "request" to the full list of user requests.
-    # Which are each
+    """
+    We receive the request as a JSON dictionary.
+    It maps "request" to the full list of user requests. 
+    In this case, the full list of user requests should
+    just be 1 chat history.
+    """
     chat_hist = request.get_json()["request"]
-
-    recent_req = chat_hist[-1]["content"]
-    print(recent_req)
-    return "sup"
+    
+    returnval = ChatGPT_api.process_request(chat_hist)
+    returnval = json.loads(returnval)
+    return returnval
 
 # Run the app if this script is executed
 if __name__ == '__main__':
