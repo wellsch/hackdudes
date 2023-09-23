@@ -6,11 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Personal Finance Configuration</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <link rel="stylesheet" href="../static/css/styles.css"> <!-- Link to your CSS file -->
-
-    <!-- Script files -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="../static/js/clickPieChart.js"></script>
 </head>
 <body>
     <header>
@@ -33,8 +30,24 @@
                             <canvas id="myPieChart"></canvas>
                             <div class="popup" id="popup" style="none">
                                 <label for="newValue">New Value:</label>
-                                <input type="number" id="newValue">
-                                <button id="updateValue">Update</button>
+                                <!-- <input id="spinner" name="value"> -->
+                                <!-- <input type="number" id="newValue"> -->
+                                <div id="wheel-container">
+                                    <div id="wheel">
+                                        <!-- Numbers in the wheel -->
+                                        <div class="number">1</div>
+                                        <div class="number">2</div>
+                                        <div class="number">3</div>
+                                        <div class="number">4</div>
+                                        <div class="number">5</div>
+                                        <div class="number">6</div>
+                                        <div class="number">7</div>
+                                        <div class="number">8</div>
+                                        <div class="number">9</div>
+                                        <div class="number">10</div>
+                                    </div>
+                                </div>
+                                <button type="button" class="btn btn-primary mt-2" id="updateValue">Update</button>
                             </div>
                             <div class="card-body">
                                 <h5 class="card-title">Card 1</h5>
@@ -103,6 +116,11 @@
     
     <div id="scripts">
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+        <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+        <script src="https://unpkg.com/@popperjs/core@2/dist/umd/popper.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script src="../static/js/clickPieChart.js"></script>
     </div>
 </body>
 </html>
