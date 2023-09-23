@@ -1,57 +1,101 @@
-// Define a ChartInterface object
-var ChartInterface = {
-    chart: null, // Stores the Chart.js chart instance
+// Wrapper around an instance of Chart
+export class ChartInterface {
+    chart = null;
 
-    // Initialize the ChartInterface with a pie chart
-    init: function (canvasId, data, options) {
-        var ctx = document.getElementById(canvasId).getContext('2d');
-        this.chart = new Chart(ctx, {
-            type: 'pie',
-            data: data,
-            options: options,
-        });
-    },
+    constructor(chartInstance) {
+        this.chart = chartInstance;
+    }
 
-    // Get the current chart data
-    getData: function () {
+    // show updates of chart
+    updateChart() {
+        this.chart.update();
+    }
+
+    // getter for the chart data
+    getData() {
         if (this.chart) {
             return this.chart.data;
         } else {
             console.error('Chart is not initialized.');
             return null;
         }
-    },
+    }
+
+    // Get the value corresponding to index
+    getValue(index) {
+        if (this.chart) {
+            if (index >= 0 && index < this.chart.data.labels.length) {
+                return this.chart.data.datasets[0].data[index];
+            } else {
+                console.error(`Index ${index} is out of bounds.`);
+                return null;
+            }
+        } else {
+            console.error('Chart is not initialized.');
+            return error;
+        }
+    }
+
+    // Set the value corresponding to index
+    setValue(index, value) {
+        if (this.chart) {
+            if (index >= 0 && index < this.chart.data.labels.length) {
+                this.chart.data.datasets[0].data[index] = value;
+                this.chart.update();
+            } else {
+                console.error(`Index ${index} is out of bounds.`);
+            }
+        } else {
+            console.error('Chart is not initialized.');
+        }
+    }
+
+    // Get the label corresponding to index
+    getLabel(index) {
+        if (this.chart) {
+            if (index >= 0 && index < this.chart.data.labels.length) {
+                return this.chart.data.labels[index];
+            } else {
+                console.error(`Index ${index} is out of bounds.`);
+            }
+        } else {
+            console.error('Chart is not initialized.');
+            return error;
+        }
+    }
 
     // Change the name of a label
-    changeLabelName: function (oldLabelName, newLabelName) {
+    changeLabelName(oldLabelName, newLabelName) {
         if (this.chart) {
             var labelIndex = this.chart.labels.indexOf(oldLabelName);
             if (labelIndex !== -1) {
                 this.chart.data.labels[labelIndex] = newLabelName;
+                this.chart.update();
             } else {
-                console.error('Label not found in chart data.');
+                console.error(`Label \'${oldLabelName}\'not found in chart data.`);
             }
         } else {
             console.error('Chart is not initialized.');
         }
-    },
+    }
 
-    // Set the data for a label in the chart
-    setLabelData: function (label, value) {
+    // Set the value of a certain label
+    setLabelValue(label, value) {
         if (this.chart) {
             var labelIndex = this.chart.data.labels.indexOf(label);
             if (labelIndex !== -1) {
                 this.chart.data.datasets[0].data[labelIndex] = value;
+                this.chart.update();
             } else {
-                console.error('Label not found in chart data.');
+                console.error(`Label \'${label}\' not found in chart data.`);
             }
         } else {
             console.error('Chart is not initialized.');
         }
-    },
+    }
 
-    // Add data to the chart
-    addData: function (label, value) {
+    // Add a label and its corresponding value
+    addData(label, value) {
         if (this.chart) {
             this.chart.data.labels.push(label);
             this.chart.data.datasets[0].data.push(value);
@@ -59,10 +103,10 @@ var ChartInterface = {
         } else {
             console.error('Chart is not initialized.');
         }
-    },
+    }
 
-    // Remove data from the chart by label
-    removeData: function (label) {
+    // Remove a label
+    removeData(label) {
         if (this.chart) {
             var labelIndex = this.chart.data.labels.indexOf(label);
             if (labelIndex !== -1) {
@@ -70,15 +114,15 @@ var ChartInterface = {
                 this.chart.data.datasets[0].data.splice(labelIndex, 1);
                 this.chart.update();
             } else {
-                console.error('Label not found in chart data.');
+                console.error(`Label \'${label}\' not found in chart data.`);
             }
         } else {
             console.error('Chart is not initialized.');
         }
-    },
+    }
 
-    // Reset the chart (clear all data)
-    resetChart: function () {
+    // Reset the entire chart
+    resetChart() {
         if (this.chart) {
             this.chart.data.labels = [];
             this.chart.data.datasets[0].data = [];
@@ -86,8 +130,5 @@ var ChartInterface = {
         } else {
             console.error('Chart is not initialized.');
         }
-    },
-};
-
-// Export the ChartInterface object
-module.exports = ChartInterface;
+    }
+}
