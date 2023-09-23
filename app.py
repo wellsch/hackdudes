@@ -11,3 +11,8 @@ def hello_world():
 # Run the app if this script is executed
 if __name__ == '__main__':
     app.run(debug=True)
+
+@app.route('/api/initialconfig', methods=['POST'])
+def get_init_config():
+    
+    return 

@@ -20,9 +20,9 @@ def get_med_inc_nonfamily(zipcode):
     # Return value is a list of dictionary.
     api_return = c.acs5.zipcode((table_code), zipcode, state_fips = 0)
 
-    # If we have an invalid entry, the api return is empty.
+    # If we have an invalid entry, give average for US.
     if (len(api_return) == 0):
-        return -1
+        api_return = c.acs5.us((table_code))
     
     # Unwrap the api value 
     ret = api_return[0][table_code]
@@ -45,12 +45,13 @@ def get_med_inc_family(zipcode):
     # Return value is a list of dictionary.
     api_return = c.acs5.zipcode((table_code), zipcode, state_fips = 0)
 
-    # If we have an invalid entry, the api return is empty.
+    # If we have an invalid zipcode, give average for US.
     if (len(api_return) == 0):
-        return -1
+        api_return = c.acs5.us((table_code))
     
     # Unwrap the api value 
     ret = api_return[0][table_code]
     return ret
 
 print(get_med_inc_nonfamily('02446'))
+print(get_med_inc_family('00000'))
