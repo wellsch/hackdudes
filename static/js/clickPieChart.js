@@ -1,4 +1,4 @@
-// script.js
+// clickPieChart.js
 
 document.addEventListener('DOMContentLoaded', function () {
     // Get a reference to the canvas element
@@ -35,30 +35,32 @@ document.addEventListener('DOMContentLoaded', function () {
 
             // myPieChart.data.datasets[0].data[clickedIndex] += 10
 
+            // set popup attribute to be used later
             var popup = document.getElementById('popup');
+            popup.setAttribute("clickedIndex", clickedIndex);
             
             // Position the popup next to the clicked segment
             popup.style.left = event.clientX / 2 + 'px';
             popup.style.top = event.clientY / 2 + 'px';
             popup.style.display = 'block';
-
-            // Handle the "Update" button click
-            document.getElementById('updateValue').addEventListener('click', function () {
-                var newValue = parseFloat(document.getElementById('newValue').value);
-                if (!isNaN(newValue)) {
-                    console.log(myPieChart.data.datasets[0]);
-                    // Update the chart data with the new value
-                    myPieChart.data.datasets[0].data[clickedIndex] = newValue;
-                    myPieChart.update();
-                }
-                popup.style.display = 'none'; // Hide the popup
-            });
-
-            // Perform an action based on the clicked segment
-            // alert('You clicked on segment ' + clickedIndex);
-
-            // update the chart
-            // myPieChart.update();
         }
     });
+
+    // Handle the "Update" button click
+    document.getElementById('updateValue').addEventListener('click', handlePopupUpdate);
+
+    function handlePopupUpdate(event) {
+        var popup = document.getElementById('popup');
+        var newValue = parseFloat(document.getElementById('newValue').value);
+        if (!isNaN(newValue)) {
+            // Update the chart data with the new value
+            updateChartData(parseInt(popup.getAttribute("clickedIndex")), newValue);
+        }
+        popup.style.display = 'none'; // Hide the popup
+    }
+
+    function updateChartData(index, newValue) {
+        myPieChart.data.datasets[0].data[index] = newValue;
+        myPieChart.update();
+    }
 });
