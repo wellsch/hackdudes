@@ -1,5 +1,7 @@
 from flask import Flask, request
 import user
+from gradio_chatbot import run_gradio
+from multiprocessing import Process
 
 # Create a Flask app
 app = Flask(__name__)
@@ -29,4 +31,5 @@ def fwd_req():
 
 # Run the app if this script is executed
 if __name__ == '__main__':
+    Process(target=run_gradio).start()
     app.run(debug=True)

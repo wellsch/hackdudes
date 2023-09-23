@@ -162,4 +162,6 @@ with gr.Blocks(css = """#col_container { margin-left: auto; margin-right: auto;}
     b1.click(reset_textbox, [], [inputs, b1], queue=False)
     b1.click(predict, [inputs, top_p, temperature, chat_counter, chatbot, state], [chatbot, state, chat_counter, server_status_code, inputs, b1],)  #openai_api_key
              
-    demo.queue(max_size=20, concurrency_count=NUM_THREADS, api_open=False).launch(share=True)
+
+def run_gradio():
+    demo.queue(max_size=20, concurrency_count=NUM_THREADS, api_open=False).launch(share=False)
