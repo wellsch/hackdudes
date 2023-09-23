@@ -1,9 +1,51 @@
 /* Styling for the custom popup */
 .popup {
-    position: absolute;
-    background-color: white;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
     border: 1px solid #ccc;
-    padding: 10px;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+    z-index: 10;
     display: none;
-    z-index: 10;    /* make it appear in front of other cards */
+}
+
+.popup label {
+    display: block;
+    margin-bottom: 10px;
+}
+
+.popup input[type="number"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-bottom: 15px;
+}
+
+.popup button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.popup button.close-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: transparent;
+    color: #888;
+    font-size: 20px;
+    border: none;
+    cursor: pointer;
+}
+
+.popup button.close-button:hover {
+    color: #333;
 }
