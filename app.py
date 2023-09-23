@@ -1,4 +1,5 @@
-from flask import Flask
+from flask import Flask, request
+import user
 
 # Create a Flask app
 app = Flask(__name__)
@@ -14,5 +15,11 @@ if __name__ == '__main__':
 
 @app.route('/api/initialconfig', methods=['POST'])
 def get_init_config():
+    
+    return 
+
+@app.route('/api/userrequest', methods=['POST'])
+def fwd_req():
+    req = request.form['request']
     
     return 
