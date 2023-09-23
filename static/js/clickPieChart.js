@@ -1,4 +1,5 @@
 // clickPieChart.js
+import { ChartInterface } from "./chartInterface.js";
 
 document.addEventListener('DOMContentLoaded', function () {
     // Get a reference to the canvas element
@@ -26,6 +27,8 @@ document.addEventListener('DOMContentLoaded', function () {
         options: options,
     });
 
+    var pieInterface = new ChartInterface(myPieChart);
+
     // Add a click event listener to the chart elements
     ctx.canvas.addEventListener('click', function (event) {
         var activeElements = myPieChart.getElementsAtEventForMode(event, 'nearest', { intersect: true }, true);
@@ -43,10 +46,10 @@ document.addEventListener('DOMContentLoaded', function () {
             // popup.style.backgroundColor = myPieChart.data.datasets[0].backgroundColor[clickedIndex];
 
             var newValueInput = popup.querySelector('input');
-            newValueInput.value = myPieChart.data.datasets[0].data[clickedIndex];
+            newValueInput.value = pieInterface.getValue(clickedIndex);
 
             var label = popup.querySelector('label');
-            label.textContent = "New value for " + myPieChart.data.labels[clickedIndex] + ":";
+            label.textContent = "New value for " + pieInterface.getLabel[clickedIndex] + ":";
 
             // Position the popup next to the clicked segment
             // popup.style.left = event.clientX + 'px';
@@ -81,8 +84,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function updateChartData(index, newValue) {
-        myPieChart.data.datasets[0].data[index] = newValue;
-        myPieChart.update();
+        pieInterface.setValue(index, newValue);
     }
 
     // Function to close the popup
