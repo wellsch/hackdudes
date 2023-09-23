@@ -1,5 +1,6 @@
 import censusapi as census
 
+
 class User:
     """
     Simple class representation of a single user's information and data. 
@@ -9,7 +10,8 @@ class User:
     self.zipcode
     self.rent_ratio -- the percentage of income to be used on rent.
     """
-    def __init__(self, income, zipcode, age = 0, actual_rent = 0):
+
+    def __init__(self, income, zipcode, age=0, actual_rent=0):
         """
         A constructor for an instance of the user class.
         Requires:
@@ -21,7 +23,7 @@ class User:
         self.age = age
         self.actual_rent = actual_rent
         self.rent_ratio = 0.3
-    
+
     def ideal_rent(self):
         """
         A function to return the ideal rent for a user 
@@ -31,7 +33,7 @@ class User:
             in dollars.
         """
         return self.income * self.rent_ratio
-    
+
     def median_rent(self):
         """
         A function which returns the median rent 
