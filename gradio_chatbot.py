@@ -33,6 +33,8 @@ def predict(inputs, top_p, temperature, chat_counter, chatbot, history, request:
 
     messages = [{"role": "user", "content": f"{inputs}"}]
 
+    print(f"inputs in predict: {inputs}")
+
     # print(f"chat_counter - {chat_counter}")
     if chat_counter != 0 :
         messages = []
@@ -60,33 +62,18 @@ def predict(inputs, top_p, temperature, chat_counter, chatbot, history, request:
 
     try:
         # make a POST request to the API endpoint using the requests.post method, passing in stream=True
+        print("message history:", messages)
         response = requests.post(LOCAL_API_URL, json=messages, stream=True)
         print('localhost Status Code:', response.status_code)
         print('localhost Headers:', response.headers)
+        print('localhost text:', response.text)
+        json_resp = json.loads(response.text)
+        history.append(json_resp["result"])
         # print('GPT Body:', response.text)
         response_code = f"{response}"
         #if response_code.strip() != "<Response [200]>":
         #    #print(f"response code - {response}")
-        #    raise Exception(f"Sorry, hitting rate limit. Please try again later. {response}")
-        
-        for chunk in response.iter_lines():
-            #Skipping first chunk
-            if counter == 0:
-                counter += 1
-                continue
-                #counter+=1
-            # check whether each line is non-empty
-            if chunk.decode() :
-                chunk = chunk.decode()
-                # decode each line as response data is in bytes
-                if len(chunk) > 12 and "content" in json.loads(chunk[6:])['choices'][0]['delta']:
-                    partial_words = partial_words + json.loads(chunk[6:])['choices'][0]["delta"]["content"]
-                    if token_counter == 0:
-                        history.append(" " + partial_words)
-                    else:
-                        history[-1] = partial_words
-                    token_counter += 1
-                    yield [(parse_codeblock(history[i]), parse_codeblock(history[i + 1])) for i in range(0, len(history) - 1, 2) ], history, chat_counter, response, gr.update(interactive=False), gr.update(interactive=False)  # resembles {chatbot: chat, state: history}  
+        #    raise Exception(f"Sorry, hitting rate limit. Please try again later. {response}")        
     except Exception as e:
         print (f'error found: {e}')
     yield [(parse_codeblock(history[i]), parse_codeblock(history[i + 1])) for i in range(0, len(history) - 1, 2) ], history, chat_counter, response, gr.update(interactive=True), gr.update(interactive=True)
@@ -175,4 +162,4 @@ with gr.Blocks(css = """#col_container { margin-left: auto; margin-right: auto;}
     b1.click(reset_textbox, [], [inputs, b1], queue=False)
     b1.click(predict, [inputs, top_p, temperature, chat_counter, chatbot, state], [chatbot, state, chat_counter, server_status_code, inputs, b1],)  #openai_api_key
              
-    demo.queue(max_size=20, concurrency_count=NUM_THREADS, api_open=False).launch(share=False)
+    demo.queue(max_size=20, concurrency_count=NUM_THREADS, api_open=False).launch(share=True)

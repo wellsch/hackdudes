@@ -24,7 +24,7 @@ def fwd_req():
     # chat_hist = request.get_json()["request"]
     # recent_req = chat_hist[-1]["content"]
     # print(recent_req)
-    return "hello"
+    return {"result": "bye"}
 
 
 # Run the app if this script is executed
