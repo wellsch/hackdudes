@@ -49,6 +49,8 @@ def process_request(chat_history):
     object. In addition, since you are a financial assistant, any changes you make should accurately change all applicable numbers, such as 
     if a user said their income was $10,000 per month, you would make sure that the values in overall summed to that amount. The discrectionary
     entry should always reflect the difference between the users total income and all their expenses. 
+
+    You output only JSON files, and nothing else.
     """
 
     header = {"role": "system",
