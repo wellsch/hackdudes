@@ -1,5 +1,5 @@
 ### hackdudes
-Our submission for the Capitol One challenge.
+Our submission for the Capital One challenge.
 
 # Contributors:
 Jason Han
