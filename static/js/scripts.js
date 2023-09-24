@@ -1,5 +1,7 @@
 // scripts.js
 
+import { receiveJSON } from "./test.js";
+
 document.addEventListener('DOMContentLoaded', function () {
     const socket = io('http://127.0.0.1:5000/');
 
@@ -8,5 +10,10 @@ document.addEventListener('DOMContentLoaded', function () {
     // Listen for an event from the server
     socket.on('send_message', (message) => {
         console.log('Received message from server:', message);
+    });
+
+    socket.on('update_piecharts', (message) => {
+        console.log("message is being received:", message);
+        receiveJSON(message);
     });
 });

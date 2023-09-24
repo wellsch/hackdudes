@@ -68,7 +68,7 @@ def predict(inputs, top_p, temperature, chat_counter, chatbot, history, request:
         print('localhost Headers:', response.headers)
         print('localhost text:', response.text)
         json_resp = json.loads(response.text)
-        history.append(json_resp["result"])
+        history.append(str(json_resp["jsonresp"]))
         # print('GPT Body:', response.text)
         response_code = f"{response}"
         #if response_code.strip() != "<Response [200]>":

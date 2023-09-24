@@ -37,9 +37,9 @@ def handle_connect():
 @socketio.on('chat_message')
 def handle_message(data):
     print("in handle message")
-    message = data['message']
-    print('Received message:', message)
-    socketio.emit('message', {'message': 'You said: ' + message})
+    # message = data['message']
+    # print('Received message:', message)
+    # socketio.emit('message', {'message': 'You said: ' + message})
 
 @app.route('/api/inituser', methods=['POST'])
 def init_user():
@@ -87,6 +87,8 @@ def fwd_req():
     chat_hist = request.get_json()["request"]
     
     ChatGPT_api.process_request(chat_hist, users[0])
+
+    socketio.emit('update_piecharts', users[0].piecharts)
 
     retval = {"jsonresp": users[0].piecharts, "changelog": "dummy"}
     

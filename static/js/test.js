@@ -7,6 +7,10 @@ var options = {
 };
 
 export function receiveJSON(jsonData) {
+
+    var changeLog = [];
+
+    // TODO: change this to just 'container'
     var container = document.getElementById('card-container');
 
     console.log(jsonData);
@@ -41,7 +45,7 @@ export function receiveJSON(jsonData) {
                     newDiv.className = 'card ' + key;
         
                     var canvas = document.createElement("canvas");
-                    canvas.id = "key";
+                    canvas.id = key;
                     newDiv.appendChild(canvas);
         
                     container.appendChild(newDiv);
