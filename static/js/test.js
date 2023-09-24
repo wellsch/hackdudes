@@ -99,7 +99,7 @@ export function receiveJSON(jsonData) {
                     }
                 }
             } else {
-                // console.log(key + ": " + value);
+                //console.log(key + ": " + value);
             }
         }
     }    
