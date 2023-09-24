@@ -28,13 +28,14 @@ def show_base():
 @socketio.on('connect')
 def handle_connect():
     print("fe connected")
-    socketio.emit('response', {'data': 'connected'})
+    socketio.emit('send_message', {'data': 'connected'})
 
 # If for some reason the front end is trying 
 # to send us a message through socket instead of 
 # through the flask app, we can receive it here.
-@socketio.on('message')
+@socketio.on('chat_message')
 def handle_message(data):
+    print("in handle message")
     message = data['message']
     print('Received message:', message)
     socketio.emit('message', {'message': 'You said: ' + message})

@@ -63,7 +63,7 @@ def predict(inputs, top_p, temperature, chat_counter, chatbot, history, request:
     try:
         # make a POST request to the API endpoint using the requests.post method, passing in stream=True
         print("message history:", messages)
-        response = requests.post(LOCAL_API_URL, json=messages, stream=True)
+        response = requests.post(LOCAL_API_URL, json={"request": messages}, stream=True)
         print('localhost Status Code:', response.status_code)
         print('localhost Headers:', response.headers)
         print('localhost text:', response.text)
