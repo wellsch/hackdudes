@@ -10,6 +10,7 @@ import json
 # Create a Flask app
 app = Flask(__name__)
 socketio = SocketIO(app)
+users = []
 
 # Enables all origins, which basically disallows CORS
 CORS(app, resources={r"/socket.io/*": {"origins": "http://127.0.0.1:5000"}})
@@ -69,8 +70,9 @@ def init_user():
                          "utilities": utilities,
                          "necessities": necessities,
                          "discretionary": discretionary}
+    
+    users.append(userobj)
 
-    print(jsonify(userobj.piecharts))
     return jsonify(userobj.piecharts)
 
 
@@ -84,9 +86,11 @@ def fwd_req():
     """
     chat_hist = request.get_json()["request"]
     
-    returnval = ChatGPT_api.process_request(chat_hist)
-    returnval = json.loads(returnval)
-    return returnval
+    ChatGPT_api.process_request(chat_hist, users[0])
+
+    retval = {"jsonresp": users[0].piecharts, "changelog": "dummy"}
+    
+    return jsonify(retval)
 
 # Run the app if this script is executed
 if __name__ == '__main__':
