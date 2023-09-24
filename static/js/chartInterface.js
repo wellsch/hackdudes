@@ -99,6 +99,9 @@ export class ChartInterface {
         if (this.chart) {
             this.chart.data.labels.push(label);
             this.chart.data.datasets[0].data.push(value);
+            this.chart.data.datasets[0].backgroundColor.push(`rgb(${Math.floor(Math.random() * 256)},
+                                                                ${Math.floor(Math.random() * 256)},
+                                                                ${Math.floor(Math.random() * 256)})`);
             this.chart.update();
         } else {
             console.error('Chart is not initialized.');
