@@ -52,7 +52,6 @@ const jsonData2 = {
 
 document.addEventListener('DOMContentLoaded', function () {
 
-    receiveJSON(JSON.parse(localStorage.getItem('logindata')));
     // Function to close the popup
     function closePopup() {
         var popup = document.getElementById('popup');

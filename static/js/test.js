@@ -127,7 +127,7 @@ function addClickListener(canvas, pieInterface) {
             newValueInput.value = pieInterface.getValue(clickedIndex);
 
             var label = popup.querySelector('label');
-            label.textContent = "New value for " + pieInterface.getLabel[clickedIndex] + ":";
+            label.textContent = "New value for " + pieInterface.getLabel(clickedIndex) + ":";
 
             // Position the popup next to the clicked segment
             // popup.style.left = event.clientX + 'px';

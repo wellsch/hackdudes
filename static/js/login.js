@@ -2,6 +2,9 @@ async function login() {
     const income = document.getElementById('income').value;
     const zipcode = document.getElementById('zipcode').value;
 
+    const spinner = document.getElementById('spinner');
+    spinner.style.display = 'inline-block';
+
     async function fetchLogin() {
         try {
             const response = await fetch('http://127.0.0.1:5000/api/inituser', {
@@ -31,4 +34,5 @@ async function login() {
     var baseBody = document.getElementById('base');
     baseBody.style.display = 'block';
     console.log(JSON.stringify(localStorage.getItem("logindata")))
+    document.dispatchEvent(new KeyboardEvent('keydown', {'key': 'l'}));
 }
