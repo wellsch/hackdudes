@@ -15,8 +15,6 @@ export function receiveJSON(jsonData) {
     // TODO: change this to just 'container'
     var container = document.getElementById('card-container');
 
-    console.log(jsonData);
-
     // for (chartName of jsonData) {
     //     console.log(chartName);
     // }
@@ -46,8 +44,14 @@ export function receiveJSON(jsonData) {
                             - add subelements
         
                     */
+                    var cardBody = document.createElement("div");
                     var newDiv = document.createElement("div");
                     newDiv.className = 'card ' + key;
+                    newDiv.innerHTML = `
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="card-title">${key.charAt(0).toUpperCase() + key.slice(1)}</h5>
+                    </div>
+                    `;
         
                     var canvas = document.createElement("canvas");
                     canvas.id = key;
@@ -87,7 +91,6 @@ export function receiveJSON(jsonData) {
                         }
                     }
                 } else {
-                    console.log()
                     var pieInterface = idToChartInterface.get(key);
 
                     for (var nestedKey in value) {
@@ -104,7 +107,7 @@ export function receiveJSON(jsonData) {
                     }
                 }
             } else {
-                console.log(key + ": " + value);
+                //console.log(key + ": " + value);
             }
         }
     }
