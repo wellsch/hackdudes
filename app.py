@@ -2,6 +2,8 @@ from flask import Flask, request, render_template, jsonify
 from flask_socketio import SocketIO
 from flask_cors import CORS
 import user
+from gradio_chatbot import run_gradio
+from multiprocessing import Process
 import ChatGPT_api
 import json
 
@@ -27,16 +29,17 @@ def show_base():
 @socketio.on('connect')
 def handle_connect():
     print("fe connected")
-    socketio.emit('response', {'data': 'connected'})
+    socketio.emit('send_message', {'data': 'connected'})
 
 # If for some reason the front end is trying 
 # to send us a message through socket instead of 
 # through the flask app, we can receive it here.
-@socketio.on('message')
+@socketio.on('chat_message')
 def handle_message(data):
-    message = data['message']
-    print('Received message:', message)
-    socketio.emit('message', {'message': 'You said: ' + message})
+    print("in handle message")
+    # message = data['message']
+    # print('Received message:', message)
+    # socketio.emit('message', {'message': 'You said: ' + message})
 
 @app.route('/api/inituser', methods=['POST'])
 def init_user():
@@ -82,13 +85,18 @@ def fwd_req():
     just be 1 chat history.
     """
     chat_hist = request.get_json()["request"]
+
+    prev_changehist = users[0].piecharts
     
     ChatGPT_api.process_request(chat_hist, users[0])
 
-    retval = {"jsonresp": users[0].piecharts, "changelog": "dummy"}
+    socketio.emit('update_piecharts', users[0].piecharts)
+
+    retval = {"jsonresp": users[0].piecharts, "changelog": ChatGPT_api.compute_changelog_string(prev_changehist, users[0].piecharts)}
     
     return jsonify(retval)
 
 # Run the app if this script is executed
 if __name__ == '__main__':
+    Process(target=run_gradio).start()
     socketio.run(app, debug=True)
