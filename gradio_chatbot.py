@@ -4,7 +4,7 @@ import sys
 import json 
 import requests
 
-examples = ["hello", "bye"]
+examples = ["I'm going to be spending $50 more on food this month.", "Inflation's making everything more expensive!", "I'm getting married soon and having kids, so how should I budget?"]
 
 LOCAL_API_URL = "http://127.0.0.1:5000/api/userrequest"
 DISABLED = False
@@ -84,7 +84,7 @@ def predict(inputs, top_p, temperature, chat_counter, chatbot, history, request:
 def reset_textbox():
     return gr.update(value='', interactive=False), gr.update(interactive=False)
 
-title = """<h1 align="center">GPT-3.5 Chatbot</h1>"""
+title = """<h1 align="center">PerFin Chatbot</h1>"""
 if DISABLED:
     title = """<h1 align="center" style="color:red">This app has reached OpenAI's usage limit. We are currently requesting an increase in our quota. Please check back in a few days.</h1>"""
 description = """Language models can be conditioned to act like dialogue agents through a conversational prompt that typically takes the form:
@@ -95,16 +95,16 @@ User: <utterance>
 Assistant: <utterance>
 ...
 ```
-In this app, you can explore the outputs of a gpt-3.5 LLM.
+In this app, you can use a GPT LLM to help budget your finances!
 """
 
-theme = gr.themes.Default(primary_hue="green")                
+theme = gr.themes.Default(primary_hue="neutral")            
 
 with gr.Blocks(css = """#col_container { margin-left: auto; margin-right: auto;}
                 #chatbot {height: 520px; overflow: auto;}""",
               theme=theme) as demo:
     gr.HTML(title)
-    gr.HTML("""<h3 align="center">This app provides you full access to GPT-3.5 (4096 token limit). You don't need any OPENAI API key.</h1>""")
+    gr.HTML("""<h3 align="center">This app allows you to chat with your budget! Just enter a request below to begin.</h1>""")
     #gr.HTML('''<center><a href="https://huggingface.co/spaces/yuntian-deng/ChatGPT?duplicate=true"><img src="https://bit.ly/3gLdBN6" alt="Duplicate Space"></a>Duplicate the Space and run securely with your OpenAI API Key</center>''')
     with gr.Column(elem_id = "col_container", visible=False) as main_block:
         #API Key is provided by OpenAI 
