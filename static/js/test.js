@@ -2,12 +2,6 @@ import { ChartInterface } from "./chartInterface.js";
 
 const idToChartInterface = new Map();
 
-// Options for all pie charts
-var options = {
-    responsive: true,
-    maintainAspectRatio: true,
-};
-
 export function receiveJSON(jsonData) {
 
     var changeLog = new Map();
@@ -72,7 +66,21 @@ export function receiveJSON(jsonData) {
                     var myPieChart = new Chart(canvas.getContext('2d'), {
                         type: 'pie',
                         data: data,
-                        options: options,
+                        options: {
+                            plugins: {
+                                tooltip: {
+                                    titleAlign: 'center',
+                                    callbacks: {
+                                        label: function(context) {
+                                            return context.parsed.toFixed(2);
+                                        },
+                                        title: function(context) {
+                                            return context[0].label.charAt(0).toUpperCase() + context[0].label.slice(1);
+                                        }
+                                    },
+                                },
+                            }
+                        },
                     });
 
                     newInterface = new ChartInterface(myPieChart);
