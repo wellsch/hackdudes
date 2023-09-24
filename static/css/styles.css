@@ -49,3 +49,16 @@
 .popup button.close-button:hover {
     color: #333;
 }
+
+#card-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center; /* Center horizontally */
+}
+
+.card {
+    width: 30%; /* Adjust as needed */
+    margin: 10px; /* Add spacing between cards */
+    border: 1px solid #ccc;
+    padding: 10px;
+}

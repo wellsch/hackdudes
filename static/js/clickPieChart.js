@@ -1,5 +1,29 @@
 // clickPieChart.js
 import { ChartInterface } from "./chartInterface.js";
+import { receiveJSON } from "./test.js";
+
+const jsonData = {
+    "discretionary": {
+        "misc": 8649.0
+    },
+    "necessities": {
+        "food": 250,
+        "misc": 0,
+        "transportation": 250
+    },
+    "overall": {
+        "discretionary": 8649.0,
+        "necessities": 500,
+        "rent": 820.0,
+        "savings": 0,
+        "utilities": 31.0
+    },
+    "utilities": {
+        "electricity": 10.333333333333334,
+        "gas": 10.333333333333334,
+        "water": 10.333333333333334
+    }
+}
 
 document.addEventListener('DOMContentLoaded', function () {
     // Get a reference to the canvas element
@@ -59,6 +83,7 @@ document.addEventListener('DOMContentLoaded', function () {
             // Focus on the "Update Value" input field
             var inputField = document.getElementById('newValue');
             inputField.focus();
+            inputField.select();
 
             // Add a keydown event listener to the input field
             inputField.addEventListener('keydown', function (event) {
@@ -97,6 +122,9 @@ document.addEventListener('DOMContentLoaded', function () {
     function handleEscKey(event) {
         if (event.key === 'Escape' || event.keyCode === 27) {
             closePopup();
+        }
+        else if (event.key === 'l') {
+            receiveJSON(jsonData);
         }
     }
 
