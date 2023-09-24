@@ -11,7 +11,17 @@ export class ChartInterface {
         this.chart.update();
     }
 
-    // getter for the chart data
+    // Getter for the chart
+    getChart() {
+        if (this.chart) {
+            return this.chart;
+        } else {
+            console.error('Chart is not initialized.');
+            return null;
+        }
+    }
+
+    // Getter for the chart data
     getData() {
         if (this.chart) {
             return this.chart.data;
@@ -94,11 +104,24 @@ export class ChartInterface {
         }
     }
 
+    // Check whether a label name exists or not
+    doesLabelExist(label) {
+        if (this.chart) {
+            return this.chart.data.labels.indexOf(label) !== -1;
+        } else {
+            console.error('Chart is not initialized.');
+            return false;
+        }
+    }
+
     // Add a label and its corresponding value
     addData(label, value) {
         if (this.chart) {
             this.chart.data.labels.push(label);
             this.chart.data.datasets[0].data.push(value);
+            this.chart.data.datasets[0].backgroundColor.push(`rgb(${Math.floor(Math.random() * 256)},
+                                                                ${Math.floor(Math.random() * 256)},
+                                                                ${Math.floor(Math.random() * 256)})`);
             this.chart.update();
         } else {
             console.error('Chart is not initialized.');

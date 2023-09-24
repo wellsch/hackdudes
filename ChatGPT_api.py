@@ -3,7 +3,7 @@ import openai
 # Make your own config file with the OpenAI API Key
 import config
 
-def process_request(chat_history):
+def process_request(chat_history, user):
     """
     Sends a request to ChatGPT OpenAI given the prior chat 
     history logs. Appends additional context to the last 
@@ -49,15 +49,28 @@ def process_request(chat_history):
     object. In addition, since you are a financial assistant, any changes you make should accurately change all applicable numbers, such as 
     if a user said their income was $10,000 per month, you would make sure that the values in overall summed to that amount. The discrectionary
     entry should always reflect the difference between the users total income and all their expenses. 
+
+    You output only JSON files, and nothing else.
     """
 
-    header = {"role": "system",
+    header1 = {"role": "system",
               "content": string}
-
-    chat_history.insert(0, header)
+    
+    suffix1 = {"role": "user",
+               "content": "What is my current economic status?"}
+    
+    suffix2 = {"role": "assistant",
+               "content": str(user.piecharts)}
+    
+    chat_history.insert(0, header1)
+    req = chat_history.pop()
+    chat_history.append(suffix1)
+    chat_history.append(suffix2)
+    chat_history.append(req)
 
     chat_completion = openai.ChatCompletion.create(model="gpt-3.5-turbo", messages=chat_history)
-    return chat_completion["choices"][0]["message"]["content"]
+    user.piecharts = eval(chat_completion["choices"][0]["message"]["content"])
+
 
 
 
