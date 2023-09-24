@@ -46,6 +46,16 @@ export class ChartInterface {
         }
     }
 
+    // Get the total of all values in the pie chart
+    getTotal() {
+        if (this.chart) {
+            return this.chart.data.datasets[0].data.reduce((partialSum, a) => partialSum + a, 0);
+        } else {
+            console.error('Chart is not initialized.');
+            return 0;
+        }
+    }
+
     // Set the value corresponding to index
     setValue(index, value) {
         if (this.chart) {
