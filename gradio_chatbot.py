@@ -4,7 +4,7 @@ import sys
 import json 
 import requests
 
-examples = ["I'm going to be spending $50 more on food this month.", "Inflation's making everything more expensive!", "I'm getting married soon and having kids, so how should I budget?"]
+examples = ["I'm going to be spending $50 more on food this month.", "Inflation's making everything more expensive!", "I was recently diagnosed with a chronic condition, and I want to budget specifically for medical related bills such as insulin and test strips."]
 
 LOCAL_API_URL = "http://127.0.0.1:5000/api/userrequest"
 DISABLED = False

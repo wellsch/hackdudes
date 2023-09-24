@@ -45,8 +45,7 @@ def process_request(chat_history, user):
         }
     }
 
-    You are allowed to add number fields to the existing JSON objects, but you are not allowed to add additional JSON objects to the overall
-    object. In addition, since you are a financial assistant, any changes you make should accurately change all applicable numbers, such as 
+    You are allowed to add number fields to the existing JSON objects. In addition, you are allowed to add additional JSON objects as needed which map subcategories to their monthly spending. In addition, since you are a financial assistant, any changes you make should accurately change all applicable numbers, such as 
     if a user said their income was $10,000 per month, you would make sure that the values in overall summed to that amount. The discrectionary
     entry should always reflect the difference between the users total income and all their expenses. 
 
