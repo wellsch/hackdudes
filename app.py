@@ -85,12 +85,14 @@ def fwd_req():
     just be 1 chat history.
     """
     chat_hist = request.get_json()["request"]
+
+    prev_changehist = users[0].piecharts
     
     ChatGPT_api.process_request(chat_hist, users[0])
 
     socketio.emit('update_piecharts', users[0].piecharts)
 
-    retval = {"jsonresp": users[0].piecharts, "changelog": "dummy"}
+    retval = {"jsonresp": users[0].piecharts, "changelog": ChatGPT_api.compute_changelog_string(prev_changehist, users[0].piecharts)}
     
     return jsonify(retval)
 

@@ -10,7 +10,7 @@ var options = {
 
 export function receiveJSON(jsonData) {
 
-    var changeLog = [];
+    var changeLog = new Map();
 
     // TODO: change this to just 'container'
     var container = document.getElementById('card-container');
@@ -29,6 +29,9 @@ export function receiveJSON(jsonData) {
             var newInterface;
     
             if (typeof value === "object" && !Array.isArray(value)) {
+
+                var newKeyMap = new Map();
+                changeLog.set(key, newKeyMap);
 
                 if (!container.querySelector("."+key)) {
                     /*
@@ -77,6 +80,7 @@ export function receiveJSON(jsonData) {
                     for (var nestedKey in value) {
                         if (value.hasOwnProperty(nestedKey)) {
                             var nestedValue = value[nestedKey];
+                            newKeyMap.set(nestedKey, nestedValue);
                             console.log(key + "." + nestedKey + ": " + nestedValue);
     
                             newInterface.addData(nestedKey, nestedValue);
@@ -90,7 +94,7 @@ export function receiveJSON(jsonData) {
                         if (value.hasOwnProperty(nestedKey)) {
                             var nestedValue = value[nestedKey];
                             console.log(key + "." + nestedKey + ": " + nestedValue);
-
+                            newKeyMap.set(nestedKey, nestedValue);
                             if (pieInterface.doesLabelExist(nestedKey)) {
                                 pieInterface.setLabelValue(nestedKey, nestedValue);
                             } else {
@@ -103,7 +107,8 @@ export function receiveJSON(jsonData) {
                 console.log(key + ": " + value);
             }
         }
-    }    
+    }
+    return changeLog;    
 }
 
 function addClickListener(canvas, pieInterface) {

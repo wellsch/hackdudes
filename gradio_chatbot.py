@@ -68,7 +68,7 @@ def predict(inputs, top_p, temperature, chat_counter, chatbot, history, request:
         print('localhost Headers:', response.headers)
         print('localhost text:', response.text)
         json_resp = json.loads(response.text)
-        history.append(str(json_resp["jsonresp"]))
+        history.append(json_resp["changelog"])
         # print('GPT Body:', response.text)
         response_code = f"{response}"
         #if response_code.strip() != "<Response [200]>":
@@ -77,6 +77,7 @@ def predict(inputs, top_p, temperature, chat_counter, chatbot, history, request:
     except Exception as e:
         print (f'error found: {e}')
     yield [(parse_codeblock(history[i]), parse_codeblock(history[i + 1])) for i in range(0, len(history) - 1, 2) ], history, chat_counter, response, gr.update(interactive=True), gr.update(interactive=True)
+    history[-1] = str(json_resp["jsonresp"])
     print(json.dumps({"chat_counter": chat_counter, "messages": messages, "partial_words": partial_words, "token_counter": token_counter, "counter": counter}))
                    
 

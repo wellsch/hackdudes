@@ -80,3 +80,25 @@ def process_request(chat_history, user):
 #                         {"role": "user", "content": "I am planning on having a kid in the next 2 years."} ]
 
 # print(process_request(sample_chat_history))
+
+def compute_changelog_string(old_dictionary, new_dictionary):
+    changelog_str = "Below represent the changed values in your budgeting plan:\n\n"
+    for outer_cat, subcat_dict in new_dictionary.items():
+        outer_cat_str = f"Category {outer_cat}:\n"
+        if outer_cat not in old_dictionary:
+            for subcat_name, budgeted_cost in subcat_dict.items():
+                outer_cat_str += f"\tSubcategory {subcat_name}: {round(budgeted_cost, 2)}\n"
+            changelog_str += outer_cat_str
+        else:
+            isChanged = False
+            for subcat_name, budgeted_cost in subcat_dict.items():
+                if subcat_name not in old_dictionary[outer_cat]:
+                    isChanged = True
+                    outer_cat_str += f"\tSubcategory {subcat_name}: {round(budgeted_cost, 2)}\n"
+                else:
+                    if budgeted_cost != old_dictionary[outer_cat][subcat_name]:
+                        isChanged = True
+                        outer_cat_str += f"\tSubcategory {subcat_name}: {round(budgeted_cost, 2)}\n"
+            if isChanged:
+                changelog_str += outer_cat_str
+    return changelog_str
