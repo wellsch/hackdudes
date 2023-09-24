@@ -67,7 +67,6 @@ def init_user():
                          "necessities": necessities,
                          "discretionary": discretionary}
 
-    print(jsonify(userobj.piecharts))
     return jsonify(userobj.piecharts)
 
 
